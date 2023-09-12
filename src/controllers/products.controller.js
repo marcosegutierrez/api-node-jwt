@@ -12,7 +12,11 @@ export const getProducts = async (req, res) => {
     res.json(products);
 };
 
-export const getProductById = (req, res) => res.json('Obteniendo producto por ID');
+export const getProductById = async (req, res) => {
+    const id = req.params.id;
+    const product = await Product.findById(id);
+    res.status(200).json(product);
+};
 
 export const updateProductById = (req, res) => res.json('Actualizando producto');
 
