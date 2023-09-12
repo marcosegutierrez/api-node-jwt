@@ -7,7 +7,10 @@ export const createProduct = async (req, res) => {
     res.status(201).json(productSaved);
 };
 
-export const getProducts = (req, res) => res.json('Obteniendo productos');
+export const getProducts = async (req, res) => {
+    const products = await Product.find();
+    res.json(products);
+};
 
 export const getProductById = (req, res) => res.json('Obteniendo producto por ID');
 
