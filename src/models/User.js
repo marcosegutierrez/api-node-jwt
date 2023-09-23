@@ -28,7 +28,7 @@ userSchema.statics.encryptPassword = async (password) => {
     return await bcrypt.hash(password, salt);
 }
 
-userSchema.statics.comparePasword = async (password, receivedPassword) => {
+userSchema.statics.comparePassword = async (password, receivedPassword) => {
     return await bcrypt.compare(password, receivedPassword);
 }
 

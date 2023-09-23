@@ -31,6 +31,19 @@ export const signUp = async (req, res) => {
 }
 
 export const signIn = async (req, res) => {
-    res.json("signin");
+    const userFound = await User.findOne({email: req.body.email})
+
+    if(userFound) {
+        const pass = await User.comparePassword(
+            req.body.password,
+            userFound.password
+        );
+    } else {
+        return res.status(400).json({ message: "Invalid username or password" });
+    }
+
+    console.log(userFound)
+    res.status(200).json("Login completed");
+
 }
 
