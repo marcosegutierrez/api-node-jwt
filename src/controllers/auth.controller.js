@@ -31,19 +31,22 @@ export const signUp = async (req, res) => {
 }
 
 export const signIn = async (req, res) => {
-    const userFound = await User.findOne({email: req.body.email})
+    const userFound = await User.findOne({email: req.body.email}).populate('roles');
 
-    if(userFound) {
+    if (userFound) {
         const pass = await User.comparePassword(
             req.body.password,
             userFound.password
         );
-    } else {
-        return res.status(400).json({ message: "Invalid username or password" });
+        if (pass) {
+            console.log(userFound);
+            const token = jwt.sign({ id: userFound._id }, process.env.SECRET_KEY, {
+                expiresIn: 86400
+            });
+            return res.json(token);
+        }
     }
 
-    console.log(userFound)
-    res.status(200).json("Login completed");
-
+    res.status(400).json({ message: "Invalid username or password" });
 }
 
