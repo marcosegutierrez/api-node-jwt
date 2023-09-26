@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', getProducts);
 router.post('/', authJwt.verifyToken, createProduct);
 router.get('/:id', getProductById);
-router.patch('/:id', updateProductById);
-router.delete('/:id', deleteProductById);
+router.patch('/:id', authJwt.verifyToken, updateProductById);
+router.delete('/:id', authJwt.verifyToken, deleteProductById);
 
 export default router;
