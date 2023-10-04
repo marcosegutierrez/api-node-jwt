@@ -7,11 +7,11 @@ import userRoutes from './routes/user.routes';
 import { createRoles } from './libs/initialSetup';
 
 const app = express();
-createRoles();
+createRoles(); // Crea los roles iniciales en caso de que no haya
 
 app.set('pkg', pkg);
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(morgan('dev')); // Imprime las peticiones del cliente en consola
 
 app.get('/', (req, res) => {
     res.json({

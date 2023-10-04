@@ -11,8 +11,8 @@ export const verifyToken = async (req, res, next) => {
 
         if(!token) return res.status(403).json({message: "No token provided"});
     
-        const decoded = jwt.verify(token, KEY);
-        req.userId = decoded.id;
+        const decoded = jwt.verify(token, KEY); // Validación que devuelve un objeto decodificado
+        req.userId = decoded.id; // Se asigna una nueva propiedad al request
         const user = await User.findById(req.userId, {password:0});
     
         if(!user) return res.status(404).json({message: "No user found"});
@@ -23,11 +23,12 @@ export const verifyToken = async (req, res, next) => {
     }
 }
 
+// Comprueba los roles Moderator o Admin
 const isRole = async (req, res, next, rol) => {
-    const user = await User.findById(req.userId);
+    const user = await User.findById(req.userId); // Propiedad que ya asigna el middleware 'verifyToken'
     const roles = await Role.find({_id: {$in: user.roles}});
     for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === rol) {
+        if (roles[i].name === rol) { // Busqueda del rol pasado por parámetro
             next();
             return;
         }
